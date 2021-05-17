@@ -1,0 +1,58 @@
+<!-- As a heading -->
+<nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">Vaccine Alert</span>
+</nav>
+<div class="container mt-5 px-4">
+
+    <div class="row">
+
+        <form novalidate #formRef="ngForm" class="row" (ngSubmit)="checkNow(formRef.value)">
+            <div class="form-group col-md-3">
+                <label for="districtId">District Id</label>
+                <input type="number" class="form-control" id="districtId" name="districtId" aria-describedby="districtId" placeholder="Enter District Id" [(ngModel)]="districtRef" ngModel>
+            </div>
+            <div class="form-group col-md-4" ngModelGroup="date">
+                <label for="dateInput">Date</label>
+                <input type="date" class="form-control" id="dateInput" name="date" placeholder="Enter Date" ngModel [(ngModel)]="dateRef">
+            </div>
+
+            <small id="emailHelp" class="form-text pb-1 pl-1 text-muted col-md-10 pl-3">Auto Check in {{seconds}}</small>
+
+            <button type="submit" class="btn btn-primary col-md-3 mx-3" [disabled]="formRef.invalid">Check Now</button>
+            <small id="emailHelp" *ngIf="time>0" class="form-text text-muted col-md-9">last Updated {{time | date:'shortTime' }}</small>
+        </form>
+    </div>
+    <div class="mx-n2" *ngIf="resultData.length>0">
+        <audio controls autoplay loop #myAudio>
+      <source src="https://www.w3schools.com/jsref/horse.ogg" type="audio/ogg">
+      <source scr="https://www.w3schools.com/jsref/horse.mp3" type="audio/mpeg">
+    </audio>
+
+    </div>
+    <div class="row mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Dose 1</th>
+                    <th scope="col">Dose 2</th>
+                </tr>
+            </thead>
+            <ng-container *ngIf="resultData">
+                <tbody *ngFor="let item of resultData;let i = index">
+                    <tr>
+                        <th scope="row">{{i+1}}</th>
+                        <td class="w-xs-45">{{item.name}}</td>
+                        <td>{{item.sessions[0]['available_capacity_dose1']}}</td>
+                        <td>{{item.sessions[0]['available_capacity_dose2']}}</td>
+                    </tr>
+                </tbody>
+            </ng-container>
+        </table>
+        <ng-container *ngIf="resultData.length==0">
+            <small id="emailHelp" class="form-text text-center text-muted col-md-12">No Slot Available For Booking</small>
+
+        </ng-container>
+    </div>
+</div>
