@@ -26,12 +26,12 @@ export class HomeComponent implements OnInit {
     //   (data: any) => data.sessions[0]['available_capacity_dose1'] > 0
     // );
     this.CowinService.checkVaccine(userChoice).subscribe((res) => {
-      // console.log('data response', res.centers);
+      console.log('data response', res.centers);
       this.getCurrentTime();
       this.resultData = res.centers.filter(
         (data: any) =>
           data.sessions[0]['min_age_limit'] == 18 &&
-          data.sessions[0]['available_capacity_dose1'] > 0 ||data.sessions[0]['available_capacity_dose2'] > 0
+          (data.sessions[0]['available_capacity_dose1'] > 0 ||data.sessions[0]['available_capacity_dose2'] > 0)
       );
     });
   }
